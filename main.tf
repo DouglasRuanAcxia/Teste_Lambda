@@ -16,7 +16,7 @@ EOF
 
 # 2. Cria uma IAM Role básica para a Lambda ter permissão de execução
 resource "aws_iam_role" "lambda_role" {
-  name = "terraform_lambda_exec_role"
+  name = "primeira-lambda-terraform-GitHubAction-role"
 
   assume_role_policy = jsonencode({
     Version = "2012-10-17"

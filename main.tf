@@ -41,7 +41,7 @@ resource "aws_iam_role_policy_attachment" "lambda_policy" {
 # 3. Cria o recurso da AWS Lambda
 resource "aws_lambda_function" "minha_lambda" {
   filename         = data.archive_file.lambda_zip.output_path
-  function_name    = "primeira-lambda-terraform"
+  function_name    = "primeira-lambda-terraform-GitHubAction"
   role             = aws_iam_role.lambda_role.arn
   handler          = "lambda_function.lambda_handler"
   runtime          = "python3.9"

@@ -1,0 +1,39 @@
+name: Deploy Lambda com Terraform
+
+on:
+  push:
+    branches:
+      - main  # O workflow será disparado automaticamente a cada push na branch main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Baixa o código do seu repositório para o servidor do GitHub
+      - name: Checkout do código
+        uses: actions/checkout@v4
+
+      # 2. Configura a ferramenta do Terraform no ambiente do GitHub
+      - name: Configurar o Terraform
+        uses: hashicorp/setup-terraform@v3
+
+      # 3. Configura as credenciais da AWS usando os Secrets do repositório
+      - name: Configurar Credenciais da AWS
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+
+      # 4. Inicializa o Terraform
+      - name: Terraform Init
+        run: terraform init
+
+      # 5. Executa o Planejamento (Mostra o que vai mudar)
+      - name: Terraform Plan
+        run: terraform plan
+
+      # 6. Aplica a infraestrutura automaticamente na AWS
+      - name: Terraform Apply
+        run: terraform apply -auto-approve
